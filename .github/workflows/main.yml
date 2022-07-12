@@ -35,7 +35,7 @@ jobs:
         image: ${{ env.APP_NAME }}
         tag: ${{github.run_number}}
         git_access_token: ${{ secrets.git_access_token }}
-        dockerfile: Dockerfile
+        dockerfile: azure-vote/Dockerfile
         branch: master
     
     # Set the target Azure Kubernetes Service (AKS) cluster. 
