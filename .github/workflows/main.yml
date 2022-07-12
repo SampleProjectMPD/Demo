@@ -62,13 +62,13 @@ jobs:
     - name: Get ACR credentials
       run: |
         az acr update -n ${{ env.REGISTRY_NAME }} -g ${{ env.CLUSTER_RESOURCE_GROUP }} --admin-enabled true
-          ACR_USERNAME=$(az acr credential show -g ${{ env.CLUSTER_RESOURCE_GROUP }} -n ${{ env.REGISTRY_NAME }} --query username -o tsv)
-          ACR_PASSWORD=$(az acr credential show -g ${{ env.CLUSTER_RESOURCE_GROUP }} -n ${{ env.REGISTRY_NAME }} --query passwords[0].value -o tsv)
-          echo "::add-mask::${ACR_USERNAME}"
-          echo "::set-output name=username::${ACR_USERNAME}"
-          echo "::add-mask::${ACR_PASSWORD}"
-          echo "::set-output name=password::${ACR_PASSWORD}"
-        id: get-acr-creds
+        ACR_USERNAME=$(az acr credential show -g ${{ env.CLUSTER_RESOURCE_GROUP }} -n ${{ env.REGISTRY_NAME }} --query username -o tsv)
+        ACR_PASSWORD=$(az acr credential show -g ${{ env.CLUSTER_RESOURCE_GROUP }} -n ${{ env.REGISTRY_NAME }} --query passwords[0].value -o tsv)
+        echo "::add-mask::${ACR_USERNAME}"
+        echo "::set-output name=username::${ACR_USERNAME}"
+        echo "::add-mask::${ACR_PASSWORD}"
+        echo "::set-output name=password::${ACR_PASSWORD}"
+      id: get-acr-creds
 
     # Creates a kubernetes secret on your Azure Kubernetes Service cluster that matches up to the credentials from the last step
     - name: Create K8s secret for pulling image from ACR
