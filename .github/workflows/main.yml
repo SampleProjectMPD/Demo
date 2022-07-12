@@ -86,7 +86,23 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     needs: [createSecret]
-    steps:    
+    steps:  
+    # Checks out the repository this file is in
+    - uses: actions/checkout@v3
+    
+    # Logs in with your Azure credentials
+    - name: Azure login
+      uses: Azure/login@v1
+      with:
+        creds: '{"clientId":"${{ secrets.service_principal }}","clientSecret":"${{ secrets.service_principal_password }}","subscriptionId":"${{ secrets.subscription_id }}","tenantId":"${{ secrets.tenant }}"}'
+      
+    # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
+    - name: Get K8s context
+      uses: azure/aks-set-context@v2.0
+      with:
+        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+        cluster-name: ${{ env.CLUSTER_NAME }}        
+        
     # Deploy app to AKS
     - uses: azure/k8s-deploy@v1
       with:
