@@ -23,10 +23,20 @@ jobs:
         password: ${{ secrets.service_principal_password }}
     
     # Container build and push to a Azure Container Registry (ACR)
-    - run: |
-        docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.run_number  }}
-        docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.run_number  }}
-      working-directory: ../azure-vote/Dockerfile
+    - name: ACR Push
+      id: acr
+      uses: azure/acr-build@v1
+      with:
+        service_principal: ${{ secrets.service_principal }}
+        service_principal_password: ${{ secrets.service_principal_password }}
+        tenant: ${{ secrets.tenant }}
+        registry: ${{ secrets.registry }}
+        repository: ${{ secrets.repository }}
+        image: ${{ env.APP_NAME }}
+        tag: ${{github.run_number}}
+        git_access_token: ${{ secrets.git_access_token }}
+        dockerfile: Dockerfile
+        branch: master
     
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - name: Get K8s context
