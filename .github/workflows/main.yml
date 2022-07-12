@@ -1,0 +1,60 @@
+on: [push]
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  REGISTRY_NAME: githubactionspov
+  CLUSTER_NAME: aksdemogithub
+  CLUSTER_RESOURCE_GROUP: GithubDemo
+  NAMESPACE: mydemoapp
+  SECRET: githubdemosecret
+  APP_NAME: demoapp
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    
+    # Connect to Azure Container Registry (ACR)
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.REGISTRY_NAME }}.azurecr.io
+        username: ${{ secrets.service_principal }} 
+        password: ${{ secrets.service_principal_password }}
+    
+    # Container build and push to a Azure Container Registry (ACR)
+    - run: |
+        docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.run_number  }}
+        docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.run_number  }}
+      working-directory: ./azure-vote/Dockerfile
+    
+    # Set the target Azure Kubernetes Service (AKS) cluster. 
+    - name: Get K8s context
+      uses: azure/aks-set-context@v2.0
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        cluster-name: ${{ env.CLUSTER_NAME }}
+    
+    # Create namespace if doesn't exist
+    - run: |
+        kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o json | kubectl apply -f -
+    
+    # Create image pull secret for ACR
+    - uses: azure/k8s-create-secret@v1
+      with:
+        container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
+        container-registry-username: ${{ secrets.service_principal }}
+        container-registry-password: ${{ secrets.service_principal_password }}
+        secret-name: ${{ env.SECRET }}
+        namespace: ${{ env.NAMESPACE }}
+        arguments: --force true
+    
+    # Deploy app to AKS
+    - uses: azure/k8s-deploy@v1
+      with:
+        manifests: azure-vote-all-in-one-redis.yaml
+        images: |
+          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+        imagepullsecrets: |
+          ${{ env.SECRET }}
+        namespace: ${{ env.NAMESPACE }}
