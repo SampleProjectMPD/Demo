@@ -26,7 +26,7 @@ jobs:
     - run: |
         docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.run_number  }}
         docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.run_number  }}
-      working-directory: ./Dockerfile
+      working-directory: ../azure-vote/Dockerfile
     
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - name: Get K8s context
