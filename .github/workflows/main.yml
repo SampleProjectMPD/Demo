@@ -64,12 +64,12 @@ jobs:
     - name: Perform SAST Scan
       run: java -jar $FOD_UPLOAD_JAR -z package.zip -aurl $FOD_API_URL -purl $FOD_URL -rid $FOD_RELEASE_ID -tc $FOD_TENANT -uc "$FOD_USER" "$FOD_PAT" $FOD_UPLOADER_OPTS -n "$FOD_UPLOADER_NOTES"
       env:
-        FOD_URL: "https://trial.fortify.com/releases/${{ secrets.FOD_RELEASE_ID }}"
-        FOD_API_URL: "https://api.trial.fortify.com/releases/${{ secrets.FOD_RELEASE_ID }}"
-        FOD_TENANT: ${{ secrets.FOD_TENANT }}
-        FOD_USER: ${{ secrets.FOD_USER }}
-        FOD_PAT: ${{ secrets.FOD_PAT }}
-        FOD_RELEASE_ID: ${{ secrets.FOD_RELEASE_ID }}
+        FOD_URL: "https://trial.fortify.com/"
+        FOD_API_URL: "https://api.trial.fortify.com/"
+        FOD_TENANT: "Accenture_596747286_FMA_320943360"
+        FOD_USER: "nmdabli@hotmail.com"
+        FOD_PAT: "RVhLbzlWSW05eEVQY2VJQXFaMj9QVzA1bXQvJmRk0"
+        FOD_RELEASE_ID: "183042"
         FOD_UPLOADER_OPTS: "-ep 2 -pp 0 -I 1 -apf"
         FOD_UPLOADER_NOTES: 'Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})'
 
@@ -78,10 +78,10 @@ jobs:
       uses: fortify/gha-export-vulnerabilities@fcb374411cff9809028c911dabb8b57dbdae623b
       with:
         fod_base_url: "https://trial.fortify.com/"
-        fod_tenant: ${{ secrets.FOD_TENANT }}
-        fod_user: ${{ secrets.FOD_USER }}
-        fod_password: ${{ secrets.FOD_PAT }}
-        fod_release_id: ${{ secrets.FOD_RELEASE_ID }}
+        fod_tenant: "Accenture_596747286_FMA_320943360"
+        fod_user: "nmdabli@hotmail.com"
+        fod_password: "RVhLbzlWSW05eEVQY2VJQXFaMj9QVzA1bXQvJmRk0"
+        fod_release_id: "183042"
 
     # Import Fortify on Demand results to GitHub Security Code Scanning
     - name: Import Results
