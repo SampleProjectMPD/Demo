@@ -64,8 +64,8 @@ jobs:
     - name: Perform SAST Scan
       run: java -jar $FOD_UPLOAD_JAR -z package.zip -aurl $FOD_API_URL -purl $FOD_URL -rid $FOD_RELEASE_ID -tc $FOD_TENANT -uc "$FOD_USER" "$FOD_PAT" $FOD_UPLOADER_OPTS -n "$FOD_UPLOADER_NOTES"
       env:
-        FOD_URL: "https://trial.fortify.com/"
-        FOD_API_URL: "https://api.trial.fortify.com/"
+        FOD_URL: "https://trial.fortify.com"
+        FOD_API_URL: "https://api.trial.fortify.com"
         FOD_TENANT: "Accenture_596747286_FMA_320943360"
         FOD_USER: "nmdabli@hotmail.com"
         FOD_PAT: "RVhLbzlWSW05eEVQY2VJQXFaMj9QVzA1bXQvJmRk0"
@@ -77,7 +77,7 @@ jobs:
     - name: Export results to GitHub-optimized SARIF
       uses: fortify/gha-export-vulnerabilities@fcb374411cff9809028c911dabb8b57dbdae623b
       with:
-        fod_base_url: "https://trial.fortify.com/"
+        fod_base_url: "https://trial.fortify.com"
         fod_tenant: "Accenture_596747286_FMA_320943360"
         fod_user: "nmdabli@hotmail.com"
         fod_password: "RVhLbzlWSW05eEVQY2VJQXFaMj9QVzA1bXQvJmRk0"
