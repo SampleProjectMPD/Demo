@@ -53,7 +53,7 @@ jobs:
     - name: Package Code + Dependencies
       run: scancentral package $PACKAGE_OPTS -o package.zip
       env:
-        PACKAGE_OPTS: "-bt none -yv 2 -o myPackage.zip"
+        PACKAGE_OPTS: "-bt none -yv 2 -o package.zip"
 
     # Start Fortify on Demand SAST scan and wait until results complete. For more information on FoDUploader commands, see https://github.com/fod-dev/fod-uploader-java
     # TODO: Update ENV variables for your application and create the necessary GitHub Secrets.  Helpful hints:
@@ -68,7 +68,7 @@ jobs:
         FOD_API_URL: "https://api.trial.fortify.com"
         FOD_TENANT: "Accenture_596747286_FMA_320943360"
         FOD_USER: "nmdabli@hotmail.com"
-        FOD_PAT: "30585c4b-24fc-477b-879e-7e806c534508"
+        FOD_PAT: "SHF8LlVUUWMzRzdnN0RNcjBRRVd4fWh4Wlp3RDZH0"
         FOD_RELEASE_ID: "183042"
         FOD_UPLOADER_OPTS: "-ep 2 -pp 0 -I 1 -apf"
         FOD_UPLOADER_NOTES: 'Triggered by GitHub Actions (${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})'
@@ -80,7 +80,7 @@ jobs:
         fod_base_url: "https://trial.fortify.com"
         fod_tenant: "Accenture_596747286_FMA_320943360"
         fod_user: "nmdabli@hotmail.com"
-        fod_password: "30585c4b-24fc-477b-879e-7e806c534508"
+        fod_password: "SHF8LlVUUWMzRzdnN0RNcjBRRVd4fWh4Wlp3RDZH0"
         fod_release_id: "183042"
 
     # Import Fortify on Demand results to GitHub Security Code Scanning
