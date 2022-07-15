@@ -127,6 +127,8 @@ jobs:
       # You may pin to the exact commit or the version.
       # uses: cschleiden/replace-tokens@4f7e3d67f3ff2317ae650842145cdbaefba65189
       uses: cschleiden/replace-tokens@v1.1
+      env: 
+        run_number: ${{ github.run_number }}
       with:
         tokenPrefix: '#{'
         tokenSuffix: '}#'
