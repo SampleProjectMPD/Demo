@@ -122,7 +122,16 @@ jobs:
       with:
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}        
-      
+        
+    - name: Replace tokens
+      # You may pin to the exact commit or the version.
+      # uses: cschleiden/replace-tokens@4f7e3d67f3ff2317ae650842145cdbaefba65189
+      uses: cschleiden/replace-tokens@v1.1
+      with:
+        tokenPrefix: '#{'
+        tokenSuffix: '}#'
+        files: azure-vote-all-in-one-redis.yaml
+        
     # Deploy app to AKS
     - uses: azure/k8s-deploy@v1
       with:
